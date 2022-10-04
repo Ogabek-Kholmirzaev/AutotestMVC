@@ -1,20 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Sign up Page";
+﻿@model User
+
+@{
+    ViewData["Title"] = "Profile Info Page";
 }
 
-<h1 class="text-center">Ro'yhatdan o'tish</h1>
+<div class="text-center">
+    <h1 class="display-4">Name: @Model?.Name</h1>
+    <h1 class="display-4">Phone: @Model?.Phone</h1>
 
-<div class="d-flex justify-content-center">
-    <form asp-controller="Users" asp-action="SignupPost" class="mb-3 w-50" method="post">
-        <label for="Name" class="form-label">Name</label>
-        <input class="form-control" type="text" id="Name" name="Name" placeholder="Name"/> <br />
-        
-        <label for="PhoneNumber" class="form-label">Phone Number</label>
-        <input class="form-control" type="text" id="PhoneNumber" name="Phone" placeholder="Phone Number" /> <br />
-        
-        <label for="Password" class="form-label">Password</label>
-        <input class="form-control" type="password" id="Password" name="Password" placeholder="Password" /> <br />
-        
-        <input class="form-control btn-primary" type="submit" value="Sign up"/>
-    </form>
 </div>

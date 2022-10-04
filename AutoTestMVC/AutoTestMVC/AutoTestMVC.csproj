@@ -7,18 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Users\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Users\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.9" />
   </ItemGroup>
 
