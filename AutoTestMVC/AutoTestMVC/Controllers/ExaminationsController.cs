@@ -14,13 +14,14 @@ namespace AutoTestMVC.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.QuestionsCount = _questionsRepository.GetQuestionsCount(); 
+            ViewBag.QuestionsCount = _questionsRepository.GetQuestionsCount();
+            ViewBag.Ticket = _questionsRepository.GetQuestionsRange(1, 20);
             return View();
         }
 
-        public IActionResult GetQuestionById()
+        public IActionResult GetQuestionById(int questionId = 1)
         {
-            return View();
+            return View(_questionsRepository.GetQuestionById(questionId));
         }
     }
 }

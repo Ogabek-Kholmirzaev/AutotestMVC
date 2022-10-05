@@ -5,4 +5,7 @@
 <div class="text-center">
     <h1>Examination</h1>
     <h6>@ViewBag.QuestionsCount</h6>
+    
+    <h6>@ViewBag.Ticket.Count</h6>
+    <a class="btn btn-primary" asp-action="GetQuestionById" asp-route-questionId="1">Start</a>
 </div>

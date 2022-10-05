@@ -1,4 +1,15 @@
 ﻿@{
     ViewData["Title"] = "GetQuestionId";
 }
+@model QuestionEntity
 
+<div class="text-center align-items-center">
+    <h1>@Model.Id - question.</h1>
+    
+    <img src="/Images/@Model.Image" alt="Question image"/>
+    
+    @foreach (var choice in @Model.Choices!)
+    {
+        <h5>@choice.Text</h5>
+    }
+</div>
