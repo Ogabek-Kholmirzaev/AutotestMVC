@@ -12,7 +12,12 @@
 
         public void SendUserPhoneToCookie(string userPhone, HttpContext context)
         {
-            context.Response.Cookies.Append("UserPhone", userPhone);
+            var option = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(1)
+            };
+
+            context.Response.Cookies.Append("UserPhone", userPhone, option);
         }
     }
 }
