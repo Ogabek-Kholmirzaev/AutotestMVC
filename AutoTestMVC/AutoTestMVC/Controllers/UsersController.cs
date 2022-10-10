@@ -9,27 +9,22 @@ namespace AutoTestMVC.Controllers
     {
         private readonly UsersRepository _usersRepository;
         private readonly CookiesService _cookiesService;
+        private readonly UsersService _usersService;
 
         public UsersController()
         {
             _usersRepository = new UsersRepository();
             _cookiesService = new CookiesService();
+            _usersService = new UsersService();
         }
 
         public IActionResult Index()
         {
-            var userPhone = _cookiesService.GetUserPhoneFromCookie(HttpContext);
+            var user = _usersService.GetUserFromCookie(HttpContext);
+            if (user == null)
+                return RedirectToAction("Signin", "Users");
 
-            if (userPhone != null)
-            {
-                var user = _usersRepository.GetUserByPhone(userPhone);
-                if (user.Phone == userPhone)
-                {
-                    return View(user);
-                }
-            }
-
-            return View();
+            return View(user);
         }
 
         public IActionResult SignUp()

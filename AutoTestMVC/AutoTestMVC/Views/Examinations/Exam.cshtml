@@ -1,0 +1,52 @@
+﻿@model QuestionEntity
+
+@{
+    var ticketDatas = (List<TicketData>)ViewBag.ticketDatas;
+    var ticket = (Ticket)ViewBag.ticket;
+    ViewData["Title"] = "Ticket " + ticket.Id;
+}
+
+<div class="justify-content-center text-center">
+    @for (int i = ticket.FromIndex; i < ticket.FromIndex + ticket.QuestionsCount; i++)
+    {
+        var modul = i != ViewBag.questionId ? "btn btn-secondary" : "btn btn-primary";
+        var btnIndex = i - ticket.FromIndex + 1;
+
+        var questionData = ticketDatas.FirstOrDefault(td => td.QuestionId == i);
+
+        if (questionData != null && i != ViewBag.questionId)
+        {
+            modul = questionData!.Answer ? "btn btn-success" : "btn btn-danger";
+        }
+
+        <a class="@modul mb-1" asp-action="Exam" asp-route-ticketId="@ticket.Id" asp-route-questionId="@i">@btnIndex</a>
+    }
+    <br/>
+
+
+    <img class="w-25 border-dark m-3" src="/Images/@Model.Image" alt="Question image"/>
+    <h3>@Model.Question</h3>
+    
+    @{
+        var k = 1;
+    }
+
+    @foreach (var choice in @Model.Choices!)
+    {
+        var modul = "btn-info";
+
+        if (ViewBag.choiceId != null && choice.Id == ViewBag.choiceId)
+        {
+            modul = ViewBag.answer == true ? "btn-success" : "btn-danger";
+        }
+
+        
+        <a class="@modul btn w-100 mt-1" 
+           asp-action="Exam" 
+           asp-route-ticketId="@ticket.Id"
+           asp-route-questionId="@Model.Id"
+           asp-route-choiceId="@choice.Id">@k . @choice.Text</a>
+        
+        k++;
+    }
+</div>

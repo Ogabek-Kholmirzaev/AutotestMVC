@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Examinations\ExamResult.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Examinations\ExamResult.cshtml" />
+  </ItemGroup>
+
 </Project>

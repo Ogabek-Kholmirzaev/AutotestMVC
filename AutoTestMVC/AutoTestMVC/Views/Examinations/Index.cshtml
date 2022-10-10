@@ -1,11 +1,15 @@
-﻿@{
+﻿@model Ticket
+@{
     ViewData["Title"] = "Examination";
 }
 
 <div class="text-center">
     <h1>Examination</h1>
-    <h6>@ViewBag.QuestionsCount</h6>
     
-    <h6>@ViewBag.Ticket.Count</h6>
-    <a class="btn btn-primary" asp-action="GetQuestionById" asp-route-questionId="1">Start</a>
+    <h6>Id: @Model.Id</h6>
+    <h6>@Model.FromIndex</h6>
+    <h6>@Model.QuestionsCount</h6>
+    <h6>@Model.CorrectCount</h6>
+
+    <a class="btn btn-primary" asp-action="Exam" asp-route-ticketId="@Model.Id" asp-route-questionId="@Model.FromIndex">Start</a>
 </div>

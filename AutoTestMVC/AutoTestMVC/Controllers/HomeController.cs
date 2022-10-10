@@ -1,20 +1,27 @@
 ﻿using AutoTestMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using AutoTestMVC.Services;
 
 namespace AutoTestMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly UsersService _usersService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+            _usersService = new UsersService();
         }
 
         public IActionResult Index()
         {
+            var user = _usersService.GetUserFromCookie(HttpContext);
+            ViewBag.isLogin = true;
+
+            if (user == null)
+                ViewBag.isLogin = false;
+
             return View();
         }
 
