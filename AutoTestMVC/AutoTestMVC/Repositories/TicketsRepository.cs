@@ -61,7 +61,7 @@ namespace AutoTestMVC.Repositories
                 ticket.FromIndex = data.GetInt32(2);
                 ticket.QuestionsCount = data.GetInt32(3);
                 ticket.CorrectCount = data.GetInt32(4);
-
+                ticket.IsTraining = data.GetBoolean(5);
             }
 
             data.Close();
