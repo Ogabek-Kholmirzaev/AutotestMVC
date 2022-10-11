@@ -34,7 +34,7 @@ namespace AutoTestMVC.Controllers
         {
             var ticketsCount = _questionsRepository.GetQuestionsCount() / TicketQuestionsCount;
             var ticketIndex = new Random().Next(0, ticketsCount);
-            var ticket = new Ticket(user.Index, ticketIndex * TicketQuestionsCount + 1, TicketQuestionsCount, 0);
+            var ticket = new Ticket(user.Index, ticketIndex * TicketQuestionsCount + 1, TicketQuestionsCount, 0, false);
 
             _ticketsRepository.InsertTicket(ticket);
 

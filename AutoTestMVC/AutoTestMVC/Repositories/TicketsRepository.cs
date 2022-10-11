@@ -21,7 +21,7 @@ namespace AutoTestMVC.Repositories
             var cmd = _connection.CreateCommand();
 
             cmd.CommandText =
-                "CREATE TABLE IF NOT EXISTS tickets(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, from_index INTEGER, questions_count INTEGER, correct_count INTEGER)";
+                "CREATE TABLE IF NOT EXISTS tickets(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, from_index INTEGER, questions_count INTEGER, correct_count INTEGER, is_training BOOLEAN)";
             cmd.ExecuteNonQuery();
 
             cmd.CommandText =
@@ -36,8 +36,8 @@ namespace AutoTestMVC.Repositories
             _connection.Open();
 
             var cmd = _connection.CreateCommand();
-            cmd.CommandText = "INSERT INTO tickets(user_id, from_index, questions_count, correct_count) " +
-                              $"VALUES({ticket.UserId}, {ticket.FromIndex}, {ticket.QuestionsCount}, {ticket.CorrectCount})";
+            cmd.CommandText = "INSERT INTO tickets(user_id, from_index, questions_count, correct_count, is_training) " +
+                              $"VALUES({ticket.UserId}, {ticket.FromIndex}, {ticket.QuestionsCount}, {ticket.CorrectCount}, {ticket.IsTraining})";
             cmd.ExecuteNonQuery();
 
             _connection.Close();
@@ -178,6 +178,34 @@ namespace AutoTestMVC.Repositories
             return ticketDatas;
         }
 
+        public List<Ticket> GetTicketsByUserId(int userId)
+        {
+            var tickets = new List<Ticket>();
+
+            _connection.Open();
+
+            var cmd = _connection.CreateCommand();
+            cmd.CommandText = $"SELECT id, from_index, questions_count, correct_count FROM tickets WHERE user_id={userId} AND is_training=true";
+
+            var data = cmd.ExecuteReader();
+
+            while (data.Read())
+            {
+                tickets.Add(new Ticket()
+                {
+                    Id = data.GetInt32(0),
+                    FromIndex = data.GetInt32(1),
+                    QuestionsCount = data.GetInt32(2),
+                    CorrectCount = data.GetInt32(3)
+                });
+            }
+
+            data.Close();
+            _connection.Close();
+
+            return tickets;
+        }
+
         public int GetLastRowId()
         {
             _connection.Open();
@@ -197,6 +225,21 @@ namespace AutoTestMVC.Repositories
             _connection.Close();
 
             return id;
+        }
+
+        public void InsertUserTrainingTickets(int userId, int ticketsCount, int ticketQuestionsCount)
+        {
+            for (int i = 0; i < ticketsCount; i++)
+            {
+                InsertTicket(new Ticket()
+                {
+                    UserId = userId,
+                    CorrectCount = 0,
+                    IsTraining = true,
+                    FromIndex = i * ticketQuestionsCount + 1,
+                    QuestionsCount = ticketQuestionsCount
+                });
+            }
         }
 
     }
