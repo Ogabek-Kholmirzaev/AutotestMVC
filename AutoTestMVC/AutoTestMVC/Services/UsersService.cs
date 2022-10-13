@@ -8,10 +8,10 @@ namespace AutoTestMVC.Services
         private CookiesService _cookiesService;
         private UsersRepository _usersRepository;
 
-        public UsersService()
+        public UsersService(CookiesService cookiesService, UsersRepository usersRepository)
         {
-            _cookiesService = new CookiesService();
-            _usersRepository = new UsersRepository();
+            _cookiesService = cookiesService;
+            _usersRepository = usersRepository;
         }
 
         public User? GetUserFromCookie(HttpContext context)

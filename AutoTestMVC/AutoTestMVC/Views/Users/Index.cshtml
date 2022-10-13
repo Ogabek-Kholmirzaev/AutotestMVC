@@ -4,8 +4,11 @@
     ViewData["Title"] = "Profile Info Page";
 }
 
-<div class="text-center">
+<div class="text-center ">
+    <img src="Profile/@Model.Image" class="w-25"/>
+
     <h1 class="display-4">Name: @Model?.Name</h1>
     <h1 class="display-4">Phone: @Model?.Phone</h1>
-
+    
+    <a class="btn btn-primary" asp-action="Edit">Edit Profile</a>
 </div>

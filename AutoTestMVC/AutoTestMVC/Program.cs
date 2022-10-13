@@ -1,7 +1,17 @@
+using AutoTestMVC.Repositories;
+using AutoTestMVC.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<CookiesService>();
+builder.Services.AddScoped<UsersRepository>();
+builder.Services.AddScoped<QuestionsRepository>();
+builder.Services.AddScoped<TicketsRepository>();
+
 
 var app = builder.Build();
 

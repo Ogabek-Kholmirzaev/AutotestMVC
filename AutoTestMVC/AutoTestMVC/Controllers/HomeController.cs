@@ -9,9 +9,9 @@ namespace AutoTestMVC.Controllers
     {
         private readonly UsersService _usersService;
 
-        public HomeController()
+        public HomeController(UsersService usersService)
         {
-            _usersService = new UsersService();
+            _usersService = usersService;
         }
 
         public IActionResult Index()

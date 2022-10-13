@@ -12,11 +12,11 @@ namespace AutoTestMVC.Controllers
         private readonly TicketsRepository _ticketsRepository;
         private const int TicketQuestionsCount = 20;
 
-        public ExaminationsController()
+        public ExaminationsController(QuestionsRepository questionsRepository, UsersService usersService, TicketsRepository ticketsRepository)
         {
-            _questionsRepository = new QuestionsRepository();
-            _usersService = new UsersService();
-            _ticketsRepository = new TicketsRepository();
+            _questionsRepository = questionsRepository;
+            _usersService = usersService;
+            _ticketsRepository = ticketsRepository;
         }
 
         public IActionResult Index()

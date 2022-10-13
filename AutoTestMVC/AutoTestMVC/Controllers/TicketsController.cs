@@ -9,10 +9,10 @@ namespace AutoTestMVC.Controllers
         private readonly UsersService _usersService;
         private readonly TicketsRepository _ticketsRepository;
 
-        public TicketsController()
+        public TicketsController(UsersService usersService, TicketsRepository ticketsRepository)
         {
-            _usersService = new UsersService();
-            _ticketsRepository = new TicketsRepository();
+            _usersService = usersService;
+            _ticketsRepository = ticketsRepository;
         }
 
         public IActionResult Index()

@@ -1,4 +1,6 @@
-﻿namespace AutoTestMVC.Services
+﻿using AutoTestMVC.Models;
+
+namespace AutoTestMVC.Services
 {
     public class CookiesService
     {
@@ -18,6 +20,12 @@
             };
 
             context.Response.Cookies.Append("UserPhone", userPhone, option);
+        }
+
+        public void UpdateUserPhoneCookie(string userPhone, HttpContext context)
+        {
+            context.Response.Cookies.Delete("UserPhone");
+            context.Response.Cookies.Append("UserPhone", userPhone, new CookieOptions() { Expires = DateTime.Now.AddDays(1) });
         }
     }
 }

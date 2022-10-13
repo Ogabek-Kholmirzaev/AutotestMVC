@@ -13,13 +13,13 @@ namespace AutoTestMVC.Controllers
         private readonly TicketsRepository _ticketsRepository;
         private readonly QuestionsRepository _questionsRepository;
 
-        public UsersController()
+        public UsersController(UsersRepository usersRepository, CookiesService cookiesService, UsersService usersService, TicketsRepository ticketsRepository, QuestionsRepository questionsRepository)
         {
-            _usersRepository = new UsersRepository();
-            _cookiesService = new CookiesService();
-            _usersService = new UsersService();
-            _ticketsRepository = new TicketsRepository();
-            _questionsRepository = new QuestionsRepository();
+            _usersRepository = usersRepository;
+            _cookiesService = cookiesService;
+            _usersService = usersService;
+            _ticketsRepository = ticketsRepository;
+            _questionsRepository = questionsRepository;
         }
 
         public IActionResult Index()
@@ -35,14 +35,15 @@ namespace AutoTestMVC.Controllers
         {
             return View();
         }
-
-        public IActionResult Signin()
+        [HttpPost]
+        public IActionResult Signup(User user)
         {
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
 
-        public IActionResult SignupPost(User user)
-        {
+            user.Image ??= "profile.png";
             _usersRepository.InsertUser(user);
             var _user = _usersRepository.GetUserByPhone(user.Phone!);
             _ticketsRepository.InsertUserTrainingTickets(_user.Index, _questionsRepository.GetQuestionsCount() / 20, 20);
@@ -50,8 +51,13 @@ namespace AutoTestMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Signin()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult Signin(User user)
+        public IActionResult Signin(UserDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -66,6 +72,46 @@ namespace AutoTestMVC.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Signin");
+        }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromForm] User user)
+        {
+            var _user = _usersService.GetUserFromCookie(HttpContext);
+            if (_user == null)
+                return RedirectToAction("Signin");
+
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            _cookiesService.UpdateUserPhoneCookie(user.Phone!, HttpContext);
+
+            user.Index = _user.Index;
+            user.Image = SaveUserImage(user.ImageFile!);
+
+            _usersRepository.UpdateUser(user);
+            return RedirectToAction("Index");
+        }
+
+        private string? SaveUserImage(IFormFile userImageFile)
+        {
+            if (userImageFile == null)
+                return "profile.png";
+
+            var imagePath = Guid.NewGuid().ToString("N") + Path.GetExtension(userImageFile.FileName);
+
+            var ms = new MemoryStream();
+            userImageFile.CopyTo(ms);
+            System.IO.File.WriteAllBytes(Path.Combine("wwwroot", "Profile", imagePath), ms.ToArray());
+
+            return imagePath;
         }
     }
 }
