@@ -43,6 +43,9 @@ namespace AutoTestMVC.Controllers
             return ticket;
         }
 
+        [Route("ticket/{ticketId}")]
+        [Route("ticket/{ticketId}/question/{questionId}")]
+        [Route("ticket/{ticketId}/question/{questionId}/choice/{choiceId}")]
         public IActionResult Exam(int ticketId, int? questionId = null, int? choiceId = null)
         {
             var user = _usersService.GetUserFromCookie(HttpContext);

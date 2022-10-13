@@ -31,11 +31,13 @@ namespace AutoTestMVC.Controllers
             return View(user);
         }
 
+        [Route("signup")]
         public IActionResult SignUp()
         {
             return View();
         }
-        [HttpPost]
+
+        [HttpPost("signup")]
         public IActionResult Signup(User user)
         {
             if (!ModelState.IsValid)
@@ -51,12 +53,13 @@ namespace AutoTestMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("signin")]
         public IActionResult Signin()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("signin")]
         public IActionResult Signin(UserDto user)
         {
             if (!ModelState.IsValid)
