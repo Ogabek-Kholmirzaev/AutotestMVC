@@ -20,7 +20,7 @@ namespace AutoTestMVC.Repositories
         }
         private void CreateUsersTable()
         {
-            _connection.Open();
+            _connection!.Open();
 
             _command = _connection.CreateCommand();
             _command!.CommandText =
@@ -31,7 +31,7 @@ namespace AutoTestMVC.Repositories
 
         public void InsertUser(User user)
         {
-            _connection.Open();
+            _connection!.Open();
 
             _command = _connection.CreateCommand();
             _command!.CommandText = $"INSERT INTO users (name, phone, password, image) VALUES (@name, @phone, @password, @image)";
@@ -47,7 +47,7 @@ namespace AutoTestMVC.Repositories
 
         public User GetUserByPhone(string phone)
         {
-            _connection.Open();
+            _connection!.Open();
 
             _command = _connection.CreateCommand();
 
@@ -73,7 +73,7 @@ namespace AutoTestMVC.Repositories
 
         public void UpdateUser(User user)
         {
-            _connection.Open();
+            _connection!.Open();
 
             _command = _connection.CreateCommand();
 

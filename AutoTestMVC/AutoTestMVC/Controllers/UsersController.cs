@@ -79,6 +79,11 @@ namespace AutoTestMVC.Controllers
 
         public IActionResult Edit()
         {
+            var _user = _usersService.GetUserFromCookie(HttpContext);
+            if (_user == null)
+                return RedirectToAction("Signin");
+
+            ViewBag.user = _user;
             return View();
         }
 
