@@ -25,7 +25,14 @@
             <input class="form-control" type="password" id="Password" name="Password" placeholder="Password" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
+        
+        @{
+            if (ViewBag.IsUniquePhone == false)
+            {
+                <span class="text-danger">This <strong> phone number </strong> has already registered!</span>
+            }
+        }
 
-        <input class="form-control btn-primary" type="submit" value="Sign up"/>
+        <input class="form-control btn-primary mt-2" type="submit" value="Sign up"/>
     </form>
 </div>

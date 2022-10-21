@@ -3,13 +3,17 @@
     ViewData["Title"] = "Examination";
 }
 
-<div class="text-center">
-    <h1>Examination</h1>
-    
-    <h6>Id: @Model.Id</h6>
-    <h6>@Model.FromIndex</h6>
-    <h6>@Model.QuestionsCount</h6>
-    <h6>@Model.CorrectCount</h6>
+<div class="card text-center">
+    <div class="card-header">
+        Exam
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Id: @Model.Id</h5>
+        <p class="card-text">Number of questions: @Model.QuestionsCount</p>
 
-    <a class="btn btn-primary" asp-action="Exam" asp-route-ticketId="@Model.Id" asp-route-questionId="@Model.FromIndex">Start</a>
+        <a class="btn btn-primary" asp-action="Exam" asp-route-ticketId="@Model.Id" asp-route-questionId="@Model.FromIndex">Start</a>
+    </div>
+    <div class="card-footer text-muted">
+        Good Luck!
+    </div>
 </div>

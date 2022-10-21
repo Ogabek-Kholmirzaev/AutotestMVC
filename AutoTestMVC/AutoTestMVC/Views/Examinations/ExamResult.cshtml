@@ -3,8 +3,16 @@
     ViewData["Title"] = "Exam Result";
 }
 
-<div class="text-center">
-    <h1>TicketId: @Model.Id</h1>
-    <h1>QuestionsCount: @Model.QuestionsCount</h1>
-    <h1>CorrectAnswers: @Model.CorrectCount</h1>
+<div class="card text-center">
+    <div class="card-header">
+        Result
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Ticket id: @Model.Id</h5>
+        <p class="card-text">Number of questions: @Model.QuestionsCount</p>
+        <p class="card-text">Correct answers: @Model.CorrectCount</p>
+    </div>
+    <div class="card-footer text-muted">
+        Good Luck!
+    </div>
 </div>

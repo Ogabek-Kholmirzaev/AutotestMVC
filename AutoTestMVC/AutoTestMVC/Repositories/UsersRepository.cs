@@ -1,4 +1,5 @@
-﻿using AutoTestMVC.Models;
+﻿using System.Data;
+using AutoTestMVC.Models;
 using Microsoft.Data.Sqlite;
 
 namespace AutoTestMVC.Repositories
@@ -18,6 +19,7 @@ namespace AutoTestMVC.Repositories
         {
             _connection = new SqliteConnection("Data Source=users.db");
         }
+
         private void CreateUsersTable()
         {
             _connection!.Open();
@@ -88,6 +90,29 @@ namespace AutoTestMVC.Repositories
             _command.ExecuteNonQuery();
 
             _connection.Close();
+        }
+
+        public int IsPhoneNumberUnique(string phone)
+        {
+            _connection!.Open();
+
+            var command = _connection.CreateCommand();
+            command.CommandText = "SELECT COUNT(*) FROM users WHERE phone=@phone";
+            command.Parameters.AddWithValue("@phone", phone);
+            command.Prepare();
+
+            var data = command.ExecuteReader();
+            var count = 0;
+
+            while (data.Read())
+            {
+                count = data.GetInt32(0);
+            }
+
+            data.Close();
+            _connection.Close();
+
+            return count;
         }
     }
 }

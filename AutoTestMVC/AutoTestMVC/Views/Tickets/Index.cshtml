@@ -2,22 +2,39 @@
 
 @{
     ViewData["Title"] = "Tickets Page";
+    var ticketsDict = (Dictionary<int, int>)ViewBag.TicketsDict;
 }
 
 <div class="text-center">
     <h1>Tickets</h1>
-    
+
     @for (var i = 0; i < Model.Count; i++)
     {
-        
-        var ticketName = $"Ticket{i + 1} ";
-        
-        if (Model[i].CorrectCount == Model[i].QuestionsCount) 
-            ticketName += "✅";
-        else 
-            ticketName += $"{Model[i].CorrectCount}/{Model[i].QuestionsCount}";
+        var ticketName = $"Ticket {i + 1}";
 
-        <a class="btn btn-primary m-1" asp-controller="Examinations" asp-action="Exam" asp-route-ticketId="@Model[i].Id">@ticketName</a> <br/>
+        if (ticketsDict[Model[i].Id] != 0)
+        {
+            if (Model[i].CorrectCount == Model[i].QuestionsCount)
+                ticketName += " <<>> ✅";
+            else
+                ticketName += $" <<>> {Model[i].CorrectCount}/{Model[i].QuestionsCount}";
+        }
+
+        <a class="btn btn-primary m-1"
+           asp-controller="Tickets"
+           asp-action="ShowTicket"
+           asp-route-ticketId="@Model[i].Id"
+           asp-route-ticketNumber="@(i+1)">
+            @ticketName
+        </a> <br/>
+
+        <!--
+            <a class="btn btn-primary m-1"
+               asp-controller="Examinations"
+               asp-action="Exam"
+               asp-route-ticketId="@Model[i].Id">
+                @ticketName
+            </a> <br/>
+        -->
     }
-
 </div>

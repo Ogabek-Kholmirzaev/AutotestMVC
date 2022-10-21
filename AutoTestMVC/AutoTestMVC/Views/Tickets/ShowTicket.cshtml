@@ -1,0 +1,49 @@
+﻿@model Ticket
+
+@{
+    ViewBag.Title = $"Ticket";
+    var selectedAnswers = (int)ViewBag.selectedAnswers;
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        Exam
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Ticket @(ViewBag.ticketNumber)</h5>
+        <p class="card-text">Number of questions: @Model.QuestionsCount</p>
+        
+        @if (selectedAnswers > 0)
+        {
+            <p class="card-text">Correct answers: @Model.CorrectCount</p>
+            <p class="card-text">Selected answers: @selectedAnswers</p>
+            
+            <a class="btn btn-primary m-1"
+                asp-controller="Examinations"
+                asp-action="Exam"
+                asp-route-ticketId="@Model.Id">
+                Continue
+            </a>
+
+            <a class="btn btn-primary m-1"
+                asp-controller="Examinations"
+                asp-action="Exam"
+                asp-route-ticketId="@Model.Id"
+                asp-route-isRestart="@true">
+                Restart
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-primary m-1"
+                asp-controller="Examinations"
+                asp-action="Exam"
+                asp-route-ticketId="@Model.Id">
+                Start
+            </a>
+        }
+    </div>
+    <div class="card-footer text-muted">
+        Good Luck!
+    </div>
+</div>

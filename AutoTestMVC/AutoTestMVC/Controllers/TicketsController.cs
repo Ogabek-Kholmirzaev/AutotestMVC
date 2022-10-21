@@ -1,4 +1,5 @@
-﻿using AutoTestMVC.Repositories;
+﻿using AutoTestMVC.Models;
+using AutoTestMVC.Repositories;
 using AutoTestMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,8 +24,25 @@ namespace AutoTestMVC.Controllers
 
 
             var tickets = _ticketsRepository.GetTicketsByUserId(user.Index);
+            var ticketsDict = 
+                tickets.ToDictionary(ticket => ticket.Id, ticket => _ticketsRepository.GetTicketAnswersCount(ticket.Id));
+
+            ViewBag.TicketsDict = ticketsDict;
 
             return View(tickets);
+        }
+
+        public IActionResult ShowTicket(int ticketId, int ticketNumber)
+        {
+            var user = _usersService.GetUserFromCookie(HttpContext);
+            if (user == null)
+                return RedirectToAction("Signin", "Users");
+
+            var ticket = _ticketsRepository.GetTicketById(ticketId, user.Index);
+            ViewBag.selectedAnswers = _ticketsRepository.GetTicketAnswersCount(ticket.Id);
+            ViewBag.ticketNumber = ticketNumber;
+
+            return View(ticket);
         }
     }
 }

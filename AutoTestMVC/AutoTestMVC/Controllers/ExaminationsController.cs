@@ -46,11 +46,19 @@ namespace AutoTestMVC.Controllers
         [Route("ticket/{ticketId}")]
         [Route("ticket/{ticketId}/question/{questionId}")]
         [Route("ticket/{ticketId}/question/{questionId}/choice/{choiceId}")]
-        public IActionResult Exam(int ticketId, int? questionId = null, int? choiceId = null)
+        public IActionResult Exam(int ticketId, bool isRestart = false, int? questionId = null, int? choiceId = null)
         {
             var user = _usersService.GetUserFromCookie(HttpContext);
             if (user == null)
                 return RedirectToAction("Signin", "Users");
+
+            if (isRestart)
+            {
+                //clear tickets_data by id
+                _ticketsRepository.SetDefaultValueByTicketId(ticketId);
+                //default tickets by id
+                _ticketsRepository.DeleteTicketsDataByTicketId(ticketId);
+            }
 
             var ticket = _ticketsRepository.GetTicketById(ticketId, user.Index);
             questionId = questionId ?? ticket.FromIndex;

@@ -32,8 +32,10 @@ namespace AutoTestMVC.Controllers
         }
 
         [Route("signup")]
-        public IActionResult SignUp()
-        {
+        public IActionResult SignUp(bool isUniquePhone = true)
+        { 
+            ViewBag.IsUniquePhone = isUniquePhone;
+
             return View();
         }
 
@@ -44,6 +46,9 @@ namespace AutoTestMVC.Controllers
             {
                 return View(user);
             }
+
+            if (_usersRepository.IsPhoneNumberUnique(user.Phone!) > 0)
+                return RedirectToAction("SignUp", "Users", new { isUniquePhone = false });
 
             user.Image ??= "profile.png";
             _usersRepository.InsertUser(user);

@@ -206,6 +206,28 @@ namespace AutoTestMVC.Repositories
             return tickets;
         }
 
+        public void SetDefaultValueByTicketId(int ticketId)
+        {
+            _connection.Open();
+
+            var command = _connection.CreateCommand();
+            command.CommandText = $"UPDATE tickets SET correct_count=0 WHERE id = {ticketId}";
+            command.ExecuteNonQuery();
+
+            _connection.Close();
+        }
+
+        public void DeleteTicketsDataByTicketId(int ticketId)
+        {
+            _connection.Open();
+
+            var command = _connection.CreateCommand();
+            command.CommandText = $"DELETE FROM tickets_data WHERE ticket_id = {ticketId}";
+            command.ExecuteNonQuery();
+
+            _connection.Close();
+        }
+
         public int GetLastRowId()
         {
             _connection.Open();
